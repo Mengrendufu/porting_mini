@@ -12,11 +12,15 @@
  * system clock tick ISR
  */
 
-void Timer0_ISR_Handler (void) interrupt TMR0_VECTOR {
+void HAL_TIM_PeriodElapsedCallback(TIM_HandleTypeDef *htim) {
 
-    BSP_heartBeats(&AO_BSP_DBG);
+	if (htim->Instance == TIM6) {
 
-    Printer_tick(&SNMTT_PrtDbg);
+        BSP_heartBeats(&AO_BSP_DBG);
+
+        Printer_tick(&SNMTT_PrtDbg);
+
+	}
 
 	return;
 

@@ -20,7 +20,7 @@ void SystemClock_init(void);
  * timer0 initialization
  */
 
-void TimerInit_timer0(void);
+void TimerInit_systick(void);
 
 /*..........................................................................*/
 
@@ -32,7 +32,7 @@ void BSP_init(void) {
 
     SystemClock_init();
 
-    TimerInit_timer0();
+    TimerInit_systick();
 
 	SNMTT_PrtDbg_bspInit();
 
@@ -54,39 +54,15 @@ void SystemClock_init(void) {
 
 }
 
-void TimerInit_timer0(void) {
+void TimerInit_systick(void) {
 
 	/**
-	 * default:
-	 *
-	 * 		timer clock prescale : 12
-	 *
-	 * 		timer mode 0         : 16-bit autoreload
+	 * timer6 trigger
 	 */
 
-	/**
-	 * cnt_load
-	 */
+	extern TIM_HandleTypeDef htim6;
 
-	TH0 = (65536UL - SYSTEM_CLOCK_FREQUENCY / 12UL / BSP_TICKS_PER_SEC)
-
-				/ 256U;
-
-	TL0 = (65536UL - SYSTEM_CLOCK_FREQUENCY / 12UL / BSP_TICKS_PER_SEC)
-
-				% 256U;
-
-	/**
-	 * enable timer0 ISR
-	 */
-
-	BITS_SET_U8(IE, 1);
-
-	/**
-	 * trigger timer 0
-	 */
-
-	BITS_SET_U8(TCON, 4);
+	HAL_TIM_Base_Start_IT(&htim6);
 
 	return;
 

@@ -10,7 +10,7 @@ void SNMTT_Printer_ctor(
 
     SNMTT_Printer *me,
 
-    unsigned char id,
+    SNMTT_PutHandler output,
 
     unsigned char msgLen,
 
@@ -34,7 +34,7 @@ void SNMTT_Printer_ctor(
     unsigned int poolSize_;
 
 
-    me->id = id;
+    me->output = output;
 
     me->msgLen = msgLen;
 

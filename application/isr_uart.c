@@ -8,30 +8,16 @@
 
 #include "application.h"
 
-void UART1_ISR_Handler (void) interrupt UART1_VECTOR {
+void HAL_UART_TxCpltCallback(UART_HandleTypeDef *huart) {
 
-    /**
-     * ISR transimit
-     */
+	extern UART_HandleTypeDef huart1;
 
-    if (TI) {
+	if (huart1.Instance == USART1) {
 
-        TI = 0;
+		SNMTT_Printer_isr(&SNMTT_PrtDbg);
 
-        SNMTT_Printer_isr(&SNMTT_PrtDbg);
+	}
 
-    }
-
-    /**
-     * ISR receive
-     */
-
-    if (RI) {
-
-        RI = 0;
-
-    }
-
-    return;
+	return;
 
 }

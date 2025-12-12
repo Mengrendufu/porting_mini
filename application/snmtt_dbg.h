@@ -6,12 +6,8 @@
 #define _snmtt_dbg_h_
 
 /**
- * id
- *
- * uart 1
+ * frequency (Hz) of queue processing
  */
-
-#define SNMTT_PRT_ID_DBG  1
 
 #define SNMTT_PRT_POLLING_PER_SEC  100U
 

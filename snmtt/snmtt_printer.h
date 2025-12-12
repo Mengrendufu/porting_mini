@@ -97,7 +97,7 @@ void SNMTT_Printer_ctor(
 
     SNMTT_Printer *me,
 
-    unsigned char id,
+    SNMTT_PutHandler output,
 
     unsigned char msgLen,
 
