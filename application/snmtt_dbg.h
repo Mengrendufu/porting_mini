@@ -51,6 +51,8 @@ void SNMTT_PrtDbg_ctor(SNMTT_Printer *me);
 
 void SNMTT_PrtDbg_bspInit(void);
 
+/* TODO: Confirm the output macro handlers based on above size setting */
+
 /**
  * output handlers
  */

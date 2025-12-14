@@ -54,7 +54,7 @@ void SNMTT_PrtDbg_ctor(SNMTT_Printer *me) {
 
 /* TODO: Complete the function */
 
-/**
+/*
  * Define the output handler here
  */
 
