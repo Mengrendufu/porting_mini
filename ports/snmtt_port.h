@@ -5,59 +5,71 @@
 #ifndef _snmtt_port_h_
 #define _snmtt_port_h_
 
+/* TODO */
+
 /**
  * system clock frequency preset (Hz)
  */
 
-#define SYSTEM_CLOCK_FREQUENCY  72000000UL
+#define SYSTEM_CLOCK_FREQUENCY
+
+/* TODO */
 
 /**
- * core-specific
+ * core-specific header file
+ *
+ * example:
+ *
+ * #include "stm32f1xx_hal.h"
  */
 
-#include "stm32f1xx_hal.h"
+/* TODO */
 
 /**
- * read-only
+ * read-only key code
  */
 
 #define SNMTT_ROM
 
+/* TODO */
+
 /**
- * ram declaration
+ * ram declaration keycode
  */
 
 #define SNMTT_RAM
 
+/* TODO */
+
 /**
- * explicit reentrant notation
+ * explicit reentrant keycode
  */
 
 #define SNMTT_REENTRANT
+
+/* TODO */
 
 /**
  * SunnyMatato disabling/enabling interrupts
  */
 
-#define SNMTT_INT_DISABLE() do {			\
-                                            \
-    __disable_irq();                        \
-											\
+#define SNMTT_INT_DISABLE() do {
 } while (0)
 
-#define SNMTT_INT_ENABLE() do {   			\
-											\
-	__enable_irq();							\
-											\
+#define SNMTT_INT_ENABLE() do {
 } while (0)
+
+/* TODO */
+
+/**
+ * standard types： self-definition: "stdbool.h", "stdint.h"
+ *
+ *      or compiler depended: <stdbool.h>, <stdint.h>
+ */
 
 /**
  * common
  */
-
-#include <stdint.h>
-
-#include <stdbool.h>
 
 #include "ops_bits.h"
 

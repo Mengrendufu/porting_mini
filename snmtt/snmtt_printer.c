@@ -298,7 +298,7 @@ void SNMTT_memcpy(
     unsigned char mLen)
 {
 
-    uint8_t icpy;
+    unsigned char icpy;
 
     for (icpy = 0; icpy < mLen; ++icpy) {
 

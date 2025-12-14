@@ -11,6 +11,8 @@
 
 #define SNMTT_PRT_POLLING_PER_SEC  100U
 
+/* TODO: Confirm the memory size setting */
+
 /**
  * configuration:
  *

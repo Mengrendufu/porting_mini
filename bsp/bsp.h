@@ -6,10 +6,12 @@
 #define _bsp_h_
 
 /**
+ * TODO
+ *
  * systick frequency (Hz)
  */
 
-#define BSP_TICKS_PER_SEC  100
+#define BSP_TICKS_PER_SEC
 
 /**
  * BSP initialization
@@ -22,6 +24,8 @@ void BSP_init(void);
  */
 
 /**
+ * TODO
+ *
  * BSP DBG
  */
 

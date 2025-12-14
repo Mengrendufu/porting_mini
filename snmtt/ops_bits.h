@@ -21,6 +21,22 @@
 
 /* 16-bit */
 
+#define BITS_SET_U16(target_, bit_)		\
+										\
+	((target_) |= (0x0001 << (bit_)))
+
+#define BITS_RESET_U16(target_, bit_)	\
+										\
+	((target_) &= (~(0x0001 << (bit_))))
+
 /* 32-bit */
+
+#define BITS_SET_U32(target_, bit_)		\
+										\
+	((target_) |= (0x0001 << (bit_)))
+
+#define BITS_RESET_U32(target_, bit_)	\
+										\
+	((target_) &= (~(0x0001 << (bit_))))
 
 #endif  /* _ops_bits_h_ */

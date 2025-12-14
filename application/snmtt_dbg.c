@@ -52,19 +52,19 @@ void SNMTT_PrtDbg_ctor(SNMTT_Printer *me) {
 
 }
 
-static void SNMTT_PrtDbg_output(SNMTT_Printer * const me) SNMTT_REENTRANT {
+/* TODO: Complete the function */
 
-    extern UART_HandleTypeDef huart1;
+/**
+ * Define the output handler here
+ */
+
+static void SNMTT_PrtDbg_output(SNMTT_Printer * const me) SNMTT_REENTRANT {
 
     --me->tranCnt;
 
-    HAL_UART_Transmit_IT(
-
-                &huart1,
-
-                &me->frame[me->msgLen - me->tranCnt - 1],
-
-                1);
+    /**
+     * Output a byte via uart
+     */
 
     return;
 
