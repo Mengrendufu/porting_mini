@@ -40,6 +40,26 @@
 #define SNMTT_REENTRANT  reentrant
 
 /**
+ * system reentrant stack configuration
+ */
+
+/* size of xram */
+
+#define SYSTEM_RAM_LEN_XDATA  (0x1FFF + 1)
+
+/* stack size */
+
+#define SYSTEM_REENTRANT_STACK_SIZE  256
+
+#define SNMTT_PORT_SYSTEM_REENTRANT_STACK_STO_INS()							\
+																			\
+		static unsigned char volatile SNMTT_RAM 							\
+																			\
+			_systemReentrantStackSto[SYSTEM_REENTRANT_STACK_SIZE]			\
+																			\
+				_at_ (SYSTEM_RAM_LEN_XDATA - SYSTEM_REENTRANT_STACK_SIZE)
+
+/**
  * SunnyMatato disabling/enabling interrupts
  */
 
