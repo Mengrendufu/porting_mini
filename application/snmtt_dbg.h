@@ -11,8 +11,6 @@
 
 #define SNMTT_PRT_POLLING_PER_SEC  100U
 
-/* TODO: Confirm the memory size setting */
-
 /**
  * configuration:
  *
@@ -50,8 +48,6 @@ void SNMTT_PrtDbg_ctor(SNMTT_Printer *me);
 /* Board-Support-Package */
 
 void SNMTT_PrtDbg_bspInit(void);
-
-/* TODO: Confirm the output macro handlers based on above size setting */
 
 /**
  * output handlers

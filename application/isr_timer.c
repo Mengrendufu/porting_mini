@@ -8,8 +8,6 @@
 
 #include "application.h"
 
-/* TODO: Add the function */
-
 /**
  * system tick container of
  *
@@ -19,3 +17,13 @@
  *
  * Frequency: BSP_TICKS_PER_SEC
  */
+
+void Timer0_ISR_Handler (void) interrupt TMR0_VECTOR {
+
+    BSP_heartBeats(&AO_BSP_DBG);
+
+    Printer_tick(&SNMTT_PrtDbg);
+
+	return;
+
+}
