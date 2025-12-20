@@ -56,14 +56,6 @@ void SystemClock_init(void) {
 
 void TimerInit_systick(void) {
 
-	/**
-	 * timer6 trigger
-	 */
-
-	extern TIM_HandleTypeDef htim6;
-
-	HAL_TIM_Base_Start_IT(&htim6);
-
 	return;
 
 }

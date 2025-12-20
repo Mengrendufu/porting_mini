@@ -2,22 +2,18 @@
  ******************************* SUNNY MATATO ********************************
  ****************************************************************************/
 
-#ifndef _application_h_
-#define _application_h_
+#include "snmtt_port.h"
 
-/**
- * Active Objects
- */
+#include "bsp.h"
 
-/**
- * AO debug
- */
+#include "application.h"
 
-/* TODO: use or not use */
+void AO_ctor(void) {
 
- // #define SNMTT_DBG_UNUSE
-#include "snmtt_dbg.h"
+#ifndef SNMTT_DBG_UNUSE
+	SNMTT_PrtDbg_ctor(&SNMTT_PrtDbg);
+#endif
 
-void AO_ctor(void);
+	return;
 
-#endif  /* _application_h_ */
+}

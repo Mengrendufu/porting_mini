@@ -8,14 +8,6 @@
 
 #include "application.h"
 
-void AO_ctor(void) {
-
-	SNMTT_PrtDbg_ctor(&SNMTT_PrtDbg);
-
-	return;
-
-}
-
 /**
  * main
  */

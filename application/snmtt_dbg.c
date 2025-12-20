@@ -8,25 +8,29 @@
 
 #include "application.h"
 
-/**
- * Output handler
- */
-
-static void SNMTT_PrtDbg_output(SNMTT_Printer * const me) SNMTT_REENTRANT;
-
-SNMTT_Printer SNMTT_PrtDbg;
-
-unsigned char SNMTT_PrtDbg_frame[SNMTT_PRT_MSGLEN_DBG];
+SNMTT_DBG_DEFINE_AO
 
 /**
  * pool & queue
  */
 
-static struct SNMTT_Block_dbg SNMTT_PrtDbg_pSto[SNMTT_PRT_PSIZE_DBG];
+SNMTT_DBG_DEFINE_PSTO
 
-static void *                 SNMTT_PrtDbg_qSto[SNMTT_PRT_QSIZE_DBG];
+SNMTT_DBG_DEFINE_QSTO
+
+/**
+ * SNMTT_PutHandler
+ */
+
+#ifndef SNMTT_DBG_UNUSE
+
+static void SNMTT_PrtDbg_output(SNMTT_Printer * const me) SNMTT_REENTRANT;
+
+#endif
 
 void SNMTT_PrtDbg_ctor(SNMTT_Printer *me) {
+
+#ifndef SNMTT_DBG_UNUSE
 
     SNMTT_Printer_ctor(
 
@@ -47,6 +51,12 @@ void SNMTT_PrtDbg_ctor(SNMTT_Printer *me) {
         (void *)SNMTT_PrtDbg_qSto,
 
         SNMTT_PRT_QSIZE_DBG);
+
+#else
+
+    (void)me;
+
+#endif
 
     return;
 

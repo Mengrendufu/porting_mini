@@ -113,26 +113,6 @@ void SNMTT_Printer_ctor(
 
 }
 
-void Printer_tick(SNMTT_Printer *me) {
-
-    if (me->pollingCtr != 0) {
-
-        --me->pollingCtr;
-
-        if (me->pollingCtr == 0) {
-
-            me->isPollingReady = 0xFF;
-
-            me->pollingCtr = me->pollingInterval;
-
-        }
-
-    }
-
-    return;
-
-}
-
 void SNMTT_Printer_run(SNMTT_Printer *me) {
 
     if (me->isPollingReady) {
@@ -165,7 +145,7 @@ void SNMTT_Printer_run(SNMTT_Printer *me) {
 
 }
 
-void SNMTT_Printer_isr(SNMTT_Printer *me) {
+void SNMTT_Printer_isr(SNMTT_Printer *me) SNMTT_REENTRANT {
 
     bool isGc;
 
@@ -209,7 +189,12 @@ void SNMTT_Printer_isr(SNMTT_Printer *me) {
 
 }
 
-void SNMTT_Printer_vomit(SNMTT_Printer *me, unsigned char *msg) {
+void SNMTT_Printer_vomit(
+
+    SNMTT_Printer *me,
+
+    unsigned char *msg) SNMTT_REENTRANT
+{
 
     unsigned char *fb;
 
@@ -233,6 +218,8 @@ void SNMTT_Printer_vomit(SNMTT_Printer *me, unsigned char *msg) {
 
         }
 
+        SNMTT_PRT_CRITICAL_EXIT();
+
         /**
          * payload
          */
@@ -242,6 +229,8 @@ void SNMTT_Printer_vomit(SNMTT_Printer *me, unsigned char *msg) {
         /**
          * en queue
          */
+
+        SNMTT_PRT_CRITICAL_ENTRY();
 
         if (me->nUsed < me->qLen) {
 
@@ -281,9 +270,13 @@ void SNMTT_Printer_vomit(SNMTT_Printer *me, unsigned char *msg) {
 
         }
 
-    }
+        SNMTT_PRT_CRITICAL_EXIT();
 
-    SNMTT_PRT_CRITICAL_EXIT();
+    } else {
+
+        SNMTT_PRT_CRITICAL_EXIT();
+
+    }
 
     return;
 
@@ -295,10 +288,10 @@ void SNMTT_memcpy(
 
     unsigned char *to,
 
-    unsigned char mLen)
+    unsigned char mLen) SNMTT_REENTRANT
 {
 
-    unsigned char icpy;
+    uint8_t icpy;
 
     for (icpy = 0; icpy < mLen; ++icpy) {
 
