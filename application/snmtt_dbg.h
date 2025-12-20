@@ -5,13 +5,23 @@
 #ifndef _snmtt_dbg_h_
 #define _snmtt_dbg_h_
 
+#ifndef SNMTT_DBG_UNUSE  /* active ? */
+
+#define SNMTT_DBG_DEFINE_AO SNMTT_Printer SNMTT_PrtDbg;
+
+#define SNMTT_DBG_DEFINE_PSTO                                               \
+                                                                            \
+    static struct SNMTT_Block_dbg SNMTT_PrtDbg_pSto[SNMTT_PRT_PSIZE_DBG];
+
+#define SNMTT_DBG_DEFINE_QSTO                               \
+                                                            \
+    static void *SNMTT_PrtDbg_qSto[SNMTT_PRT_QSIZE_DBG];
+
 /**
  * frequency (Hz) of queue processing
  */
 
 #define SNMTT_PRT_POLLING_PER_SEC  100U
-
-/* TODO: Confirm the memory size setting */
 
 /**
  * configuration:
@@ -51,8 +61,6 @@ void SNMTT_PrtDbg_ctor(SNMTT_Printer *me);
 
 void SNMTT_PrtDbg_bspInit(void);
 
-/* TODO: Confirm the output macro handlers based on above size setting */
-
 /**
  * output handlers
  */
@@ -66,43 +74,53 @@ void SNMTT_PrtDbg_bspInit(void);
                                                                     \
     SNMTT_Printer_vomit(&SNMTT_PrtDbg, (unsigned char *)(msg_));
 
-/**
- * format debug
- */
-
-extern unsigned char SNMTT_PrtDbg_frame[SNMTT_PRT_MSGLEN_DBG];
-
 /* example */
 
 // SNMTT_DBG_FRMT_START
 // /* DEBUG        012345678901234 */
 // SNMTT_DBG_FRMT("VOLT:__CURRT:__");
-// SNMTT_DBG_PAYLOAD(6)  = (uint8_t)(((uint16_t)(vVolt)) >> 8);
-// SNMTT_DBG_PAYLOAD(7)  = (uint8_t)(((uint16_t)(vVolt)) >> 0);
-// SNMTT_DBG_PAYLOAD(13) = (uint8_t)(((uint16_t)(CURRT)) >> 8);
-// SNMTT_DBG_PAYLOAD(14) = (uint8_t)(((uint16_t)(CURRT)) >> 0);
+// SNMTT_DBG_PAYLOAD(6,  (uint8_t)(((uint16_t)(vVolt)) >> 8));
+// SNMTT_DBG_PAYLOAD(7,  (uint8_t)(((uint16_t)(vVolt)) >> 0));
+// SNMTT_DBG_PAYLOAD(13, (uint8_t)(((uint16_t)(CURRT)) >> 8));
+// SNMTT_DBG_PAYLOAD(14, (uint8_t)(((uint16_t)(CURRT)) >> 0));
 // SNMTT_DBG_FRMT_END
 
-#define SNMTT_DBG_FRMT_START  do { \
+#define SNMTT_DBG_FRMT_START  do {                  \
+                                                    \
+    unsigned char msgFrame_[SNMTT_PRT_MSGLEN_DBG];
 
-#define SNMTT_DBG_FRMT(msg_)  do {              \
-                                                \
-            SNMTT_memcpy(                       \
-                                                \
-                    (unsigned char *)(msg_),    \
-                                                \
-                    SNMTT_PrtDbg_frame,         \
-                                                \
-                    SNMTT_PrtDbg.msgLen);       \
-                                                \
-        } while (0)
+#define SNMTT_DBG_FRMT(msg_)        \
+                                    \
+    SNMTT_memcpy(                   \
+                                    \
+        (unsigned char *)(msg_),    \
+                                    \
+        msgFrame_,                  \
+                                    \
+        SNMTT_PrtDbg.msgLen)        \
+                                    \
 
-#define SNMTT_DBG_PAYLOAD(ip_)  (SNMTT_PrtDbg_frame[(ip_)])
+#define SNMTT_DBG_PAYLOAD(ip_, elem_)  (msgFrame_)[(ip_)] = (elem_)
 
-#define SNMTT_DBG_FRMT_END                                          \
-                                                                    \
-            SNMTT_Printer_vomit(&SNMTT_PrtDbg, SNMTT_PrtDbg_frame); \
-                                                                    \
-        } while (0);
+#define SNMTT_DBG_FRMT_END                          \
+                                                    \
+    SNMTT_Printer_vomit(&SNMTT_PrtDbg, msgFrame_);   \
+                                                    \
+} while (0);
+
+#else  /* not active? */
+
+#define SNMTT_DBG_DEFINE_AO
+#define SNMTT_DBG_DEFINE_PSTO
+#define SNMTT_DBG_DEFINE_QSTO
+
+#define SNMTT_DBG_MSG(msg_)  ((void)0)
+
+#define SNMTT_DBG_FRMT_START           ((void)0);
+#define SNMTT_DBG_FRMT(msg_)           ((void)0)
+#define SNMTT_DBG_PAYLOAD(ip_, elem_)  ((void)0)
+#define SNMTT_DBG_FRMT_END             ((void)0);
+
+#endif
 
 #endif  /* _snmtt_dbg_h_ */

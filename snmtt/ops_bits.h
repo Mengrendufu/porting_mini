@@ -33,10 +33,10 @@
 
 #define BITS_SET_U32(target_, bit_)		\
 										\
-	((target_) |= (0x0001 << (bit_)))
+	((target_) |= (0x00000001 << (bit_)))
 
 #define BITS_RESET_U32(target_, bit_)	\
 										\
-	((target_) &= (~(0x0001 << (bit_))))
+	((target_) &= (~(0x00000001 << (bit_))))
 
 #endif  /* _ops_bits_h_ */

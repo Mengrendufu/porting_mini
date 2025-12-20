@@ -114,35 +114,47 @@ void BSP_breathe(struct BSP_DBG *me) {
 
 #endif  /* BSP_BREATH_TICK_OUT_ENABLE */
 
+	/* second pre-scaler, >= 1 */
+
+	static unsigned char cntPriod = 10;
+
 	if (me->trigger) {
 
 		me->trigger = 0x00;
 
-		me->ticks == 0xFFFF ? me->ticks = 0 : ++me->ticks;
+		if (cntPriod == 0) {  /* not armed */
+
+
+
+		} else if (cntPriod == 1) {  /* expired ? */
+
+			cntPriod = 10;
+
+			me->ticks == 0xFFFF ? me->ticks = 0 : ++me->ticks;
 
 #if BSP_BREATH_TICK_OUT_ENABLE
 
-		u16_to_5digits(me->ticks, digits);
+			u16_to_5digits(me->ticks, digits);
 
-		SNMTT_DBG_FRMT_START
-		/* DEBUG        012345678901234 */
-		SNMTT_DBG_FRMT("BSPTick:_____CR");
-		SNMTT_DBG_PAYLOAD(8)  = '0' + digits[0];
-		SNMTT_DBG_PAYLOAD(9)  = '0' + digits[1];
-		SNMTT_DBG_PAYLOAD(10) = '0' + digits[2];
-		SNMTT_DBG_PAYLOAD(11) = '0' + digits[3];
-		SNMTT_DBG_PAYLOAD(12) = '0' + digits[4];
-		SNMTT_DBG_PAYLOAD(13) = '\r';
-		SNMTT_DBG_PAYLOAD(14) = '\n';
-		SNMTT_DBG_FRMT_END
-
-		if (me->ticks == 1) {
-
-
-
-        }
+			SNMTT_DBG_FRMT_START
+			/* DEBUG        012345678901234 */
+			SNMTT_DBG_FRMT("BSPTick:_____CR");
+			SNMTT_DBG_PAYLOAD(8 , '0' + digits[0]);
+			SNMTT_DBG_PAYLOAD(9 , '0' + digits[1]);
+			SNMTT_DBG_PAYLOAD(10, '0' + digits[2]);
+			SNMTT_DBG_PAYLOAD(11, '0' + digits[3]);
+			SNMTT_DBG_PAYLOAD(12, '0' + digits[4]);
+			SNMTT_DBG_PAYLOAD(13, '\r');
+			SNMTT_DBG_PAYLOAD(14, '\n');
+			SNMTT_DBG_FRMT_END
 
 #endif  /* BSP_BREATH_TICK_OUT_ENABLE */
+
+		} else {
+
+			--cntPriod;
+
+		}
 
 	}
 

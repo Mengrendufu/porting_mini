@@ -21,7 +21,7 @@
  * Sunny Matato
  */
 
-typedef void (*SNMTT_PutHandler)(void * const me);
+typedef void (*SNMTT_PutHandler)(void * const me) SNMTT_REENTRANT;
 
 typedef struct SNMTT_Printer {
 
@@ -114,12 +114,6 @@ void SNMTT_Printer_ctor(
     unsigned char qLen);
 
 /**
- * time event (Systick_handler)
- */
-
-void Printer_tick(SNMTT_Printer *me);
-
-/**
  * super loop
  */
 
@@ -129,19 +123,17 @@ void SNMTT_Printer_run(SNMTT_Printer *me);
  * isr
  */
 
-void SNMTT_Printer_isr(SNMTT_Printer *me);
+void SNMTT_Printer_isr(SNMTT_Printer *me) SNMTT_REENTRANT;
 
 /**
  * ready for print
  */
 
-void SNMTT_Printer_vomit(SNMTT_Printer *me, unsigned char *msg);
+void SNMTT_Printer_vomit(
 
-/**
- * for polymorphism
- */
+    SNMTT_Printer *me,
 
-void SNMTT_Printer_byteDelivery(SNMTT_Printer *me) SNMTT_REENTRANT;
+    unsigned char *msg) SNMTT_REENTRANT;
 
 /**
  * memory copy
@@ -153,6 +145,6 @@ void SNMTT_memcpy(
 
     unsigned char *to,
 
-    unsigned char mLen);
+    unsigned char mLen) SNMTT_REENTRANT;
 
 #endif  /* _snmtt_printer_h_ */
